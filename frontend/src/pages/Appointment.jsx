@@ -162,14 +162,28 @@ const Appointment = () => {
             {/* Booking slots */}
             <div className='sm:ml-72 sm:pl-4 mt-8 font-medium text-[#565656]'>
                 <p >Booking slots</p>
-                <div className='flex gap-3 items-center w-full overflow-x-scroll mt-4'>
-                    {docSlots.length && docSlots.map((item, index) => (
-                        <div onClick={() => setSlotIndex(index)} key={index} className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${slotIndex === index ? 'bg-primary text-white' : 'border border-[#DDDDDD]'}`}>
-                            <p>{item[0] && daysOfWeek[item[0].datetime.getDay()]}</p>
-                            <p>{item[0] && item[0].datetime.getDate()}</p>
-                        </div>
-                    ))}
+                <div className='mt-4'>
+                    <label className='block mb-1'>Select a date:</label>
+                    <input
+                        type='date'
+                        className='border border-gray-400 px-3 py-2 rounded-md'
+                        min={new Date().toISOString().split("T")[0]}
+                        max={new Date(new Date().setDate(new Date().getDate() + 6)).toISOString().split("T")[0]}
+                        onChange={(e) => {
+                            const selected = new Date(e.target.value)
+                            const foundIndex = docSlots.findIndex(daySlots =>
+                                daySlots.length && daySlots[0].datetime.toDateString() === selected.toDateString()
+                            )
+                            if (foundIndex !== -1) {
+                                setSlotIndex(foundIndex)
+                                setSlotTime('')
+                            } else {
+                                toast.warning('No available slots on selected date')
+                            }
+                        }}
+                    />
                 </div>
+
 
                 <div className='flex items-center gap-3 w-full overflow-x-scroll mt-4'>
                     {docSlots.length && docSlots[slotIndex].map((item, index) => (
