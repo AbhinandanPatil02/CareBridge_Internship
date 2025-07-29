@@ -2,10 +2,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import 'dotenv/config'
 
-const GOOGLE_GEMINI_API_KEY = process.env.GOOGLE_GEMINI_API_KEY;
-const GOOGLE_GEMINI_API_URL = process.env.GOOGLE_GEMINI_API_URL;
+const GOOGLE_GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const GOOGLE_GEMINI_API_URL = import.meta.env.VITE_GEMINI_API_URL;
 
 const SmartAI = () => {
   const [symptoms, setSymptoms] = useState('');
